@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+
+    // Personal Information
+
+  username       String   
+  email          String?   @unique
+  image          String?
+  date           DateTime?
+  phone          String?
+  address        String?
+  
+  // Sherwani Measurement
+  sherwaniLength       Float?
+  sherwaniChest        Float?
+  sherwaniBlowChest    Float?
+  sherwaniWaist        Float?
+  sherwaniHip          Float?
+  sherwaniSleeve       Float?
+  sherwaniNeck         Float?
+  sherwaniShoulder     Float?
+  sherwaniCap          Float?
+  sherwaniFullHeight   Float?
+  
+  // Trozen or Pajama Measurement
+  trozenLength         Float?
+  trozenMohri          Float?
+  
+  // Coat Measurement
+  coatLength           Float?
+  coatChest            Float?
+  coatBlowChest        Float?
+  coatWaist            Float?
+  coatHip              Float?
+  coatSleeve           Float?
+  coatNeck             Float?
+  coatShoulder         Float?
+  coatCap              Float?
+  coatFullHeight       Float?
+  
+  // Pant Measurement
+  pantLength           Float?
+  pantWaist            Float?
+  pantThigh            Float?
+  pantBottom           Float?
+  
+  image1         String?
+  image2         String?
+  image3         String?
+   
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
