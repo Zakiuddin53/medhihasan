@@ -337,7 +337,7 @@ function Demo() {
                     htmlFor="sherwaniLength"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Length *
+                    Length *
                   </label>
                   <NumberInput
                     type="text"
@@ -352,7 +352,7 @@ function Demo() {
                     htmlFor="sherwaniBlowChest"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Chest *
+                    Chest *
                   </label>
                   <NumberInput
                     type="text"
@@ -367,7 +367,7 @@ function Demo() {
                     htmlFor="sherwaniBlowChest"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Blow Chest *
+                    Blow Chest *
                   </label>
                   <NumberInput
                     type="text"
@@ -382,7 +382,7 @@ function Demo() {
                     htmlFor="sherwaniWaist"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Waist *
+                    Waist *
                   </label>
                   <NumberInput
                     type="text"
@@ -397,7 +397,7 @@ function Demo() {
                     htmlFor="sherwaniHip"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Hip *
+                    Hip *
                   </label>
                   <NumberInput
                     type="text"
@@ -412,7 +412,7 @@ function Demo() {
                     htmlFor="sherwaniSleeve"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Sleeve *
+                    Sleeve *
                   </label>
                   <NumberInput
                     type="text"
@@ -427,7 +427,7 @@ function Demo() {
                     htmlFor="sherwaniNeck"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Neck *
+                    Neck *
                   </label>
                   <NumberInput
                     type="text"
@@ -442,7 +442,7 @@ function Demo() {
                     htmlFor="sherwaniShoulder"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Shoulder *
+                    Shoulder *
                   </label>
                   <NumberInput
                     type="text"
@@ -457,7 +457,7 @@ function Demo() {
                     htmlFor="sherwaniCap"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Cap *
+                    Cap *
                   </label>
                   <NumberInput
                     type="text"
@@ -472,7 +472,7 @@ function Demo() {
                     htmlFor="sherwaniFullHeight"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sherwani Full Height *
+                    Full Height *
                   </label>
                   <NumberInput
                     type="text"
@@ -517,7 +517,7 @@ function Demo() {
                     htmlFor="trozenLength"
                     className="block text-gray-700 font-semibold"
                   >
-                    Trouser Length *
+                    Length *
                   </label>
                   <NumberInput
                     type="text"
@@ -532,7 +532,7 @@ function Demo() {
                     htmlFor="trozenMohri"
                     className="block text-gray-700 font-semibold"
                   >
-                    Trouser Mohri *
+                    Mohri *
                   </label>
                   <NumberInput
                     type="text"
@@ -577,7 +577,7 @@ function Demo() {
                     htmlFor="coatLength"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Length *
+                    Length *
                   </label>
                   <NumberInput
                     type="text"
@@ -592,7 +592,7 @@ function Demo() {
                     htmlFor="coatChest"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Chest *
+                    Chest *
                   </label>
                   <NumberInput
                     type="text"
@@ -607,7 +607,7 @@ function Demo() {
                     htmlFor="coatBlowChest"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Blow Chest *
+                    Blow Chest *
                   </label>
                   <NumberInput
                     type="text"
@@ -622,7 +622,7 @@ function Demo() {
                     htmlFor="coatWaist"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Waist *
+                    Waist *
                   </label>
                   <NumberInput
                     type="text"
@@ -637,7 +637,7 @@ function Demo() {
                     htmlFor="coatHip"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Hip *
+                    Hip *
                   </label>
                   <NumberInput
                     type="text"
@@ -652,7 +652,7 @@ function Demo() {
                     htmlFor="coatSleeve"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Sleeve *
+                    Sleeve *
                   </label>
                   <NumberInput
                     type="text"
@@ -667,7 +667,7 @@ function Demo() {
                     htmlFor="coatNeck"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Neck *
+                    Neck *
                   </label>
                   <NumberInput
                     type="text"
@@ -682,7 +682,7 @@ function Demo() {
                     htmlFor="coatShoulder"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Shoulder *
+                    Shoulder *
                   </label>
                   <NumberInput
                     type="text"
@@ -712,7 +712,7 @@ function Demo() {
                     htmlFor="coatFullHeight"
                     className="block text-gray-700 font-semibold"
                   >
-                    Coat Full Height *
+                    Full Height *
                   </label>
                   <NumberInput
                     type="text"
@@ -772,7 +772,7 @@ function Demo() {
                     htmlFor="pantWaist"
                     className="block text-gray-700 font-semibold"
                   >
-                    Pant Waist *
+                    Waist *
                   </label>
                   <NumberInput
                     type="text"
@@ -787,7 +787,7 @@ function Demo() {
                     htmlFor="pantThigh"
                     className="block text-gray-700 font-semibold"
                   >
-                    Pant Thigh *
+                    Thigh *
                   </label>
                   <NumberInput
                     type="text"
@@ -802,7 +802,7 @@ function Demo() {
                     htmlFor="pantBottom"
                     className="block text-gray-700 font-semibold"
                   >
-                    Pant Bottom *
+                    Bottom *
                   </label>
                   <NumberInput
                     type="text"
