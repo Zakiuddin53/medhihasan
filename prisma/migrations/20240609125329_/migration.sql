@@ -1,0 +1,46 @@
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "username" TEXT NOT NULL,
+    "email" TEXT,
+    "image" TEXT,
+    "date" TIMESTAMP(3),
+    "phone" TEXT,
+    "address" TEXT,
+    "sherwaniLength" DOUBLE PRECISION,
+    "sherwaniChest" DOUBLE PRECISION,
+    "sherwaniBlowChest" DOUBLE PRECISION,
+    "sherwaniWaist" DOUBLE PRECISION,
+    "sherwaniHip" DOUBLE PRECISION,
+    "sherwaniSleeve" DOUBLE PRECISION,
+    "sherwaniNeck" DOUBLE PRECISION,
+    "sherwaniShoulder" DOUBLE PRECISION,
+    "sherwaniCap" DOUBLE PRECISION,
+    "sherwaniFullHeight" DOUBLE PRECISION,
+    "trozenLength" DOUBLE PRECISION,
+    "trozenMohri" DOUBLE PRECISION,
+    "coatLength" DOUBLE PRECISION,
+    "coatChest" DOUBLE PRECISION,
+    "coatBlowChest" DOUBLE PRECISION,
+    "coatWaist" DOUBLE PRECISION,
+    "coatHip" DOUBLE PRECISION,
+    "coatSleeve" DOUBLE PRECISION,
+    "coatNeck" DOUBLE PRECISION,
+    "coatShoulder" DOUBLE PRECISION,
+    "coatCap" DOUBLE PRECISION,
+    "coatFullHeight" DOUBLE PRECISION,
+    "pantLength" DOUBLE PRECISION,
+    "pantWaist" DOUBLE PRECISION,
+    "pantThigh" DOUBLE PRECISION,
+    "pantBottom" DOUBLE PRECISION,
+    "image1" TEXT,
+    "image2" TEXT,
+    "image3" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");

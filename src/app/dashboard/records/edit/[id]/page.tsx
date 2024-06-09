@@ -7,50 +7,15 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function EditPage({ params }:any) {
+export default function EditPage({ params }: any) {
   const navigate = useRouter();
   const [visible, setVisible] = useState(false);
   const [selectedPreviewUrl, setSelectedPreviewUrl] = useState(null);
-
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    image: "",
-    phone: "",
-    address: "",
-    sherwaniLength: "",
-    sherwaniChest: "",
-    sherwaniBlowChest: "",
-    sherwaniWaist: "",
-    sherwaniHip: "",
-    sherwaniSleeve: "",
-    sherwaniNeck: "",
-    sherwaniShoulder: "",
-    sherwaniCap: "",
-    sherwaniFullHeight: "",
-    trozenLength: "",
-    trozenMohri: "",
-    coatLength: "",
-    coatChest: "",
-    coatBlowChest: "",
-    coatWaist: "",
-    coatHip: "",
-    coatSleeve: "",
-    coatNeck: "",
-    coatShoulder: "",
-    coatCap: "",
-    coatFullHeight: "",
-    pantLength: "",
-    pantWaist: "",
-    pantThigh: "",
-    pantBottom: "",
-  });
 
   const form = useForm({
     initialValues: {
       username: "",
       email: "",
-      image: "",
       phone: "",
       address: "",
       sherwaniLength: "",
@@ -61,7 +26,7 @@ export default function EditPage({ params }:any) {
       sherwaniSleeve: "",
       sherwaniNeck: "",
       sherwaniShoulder: "",
-      sherwaniCap: "",
+      sherwaniCap: null,
       sherwaniFullHeight: "",
       trozenLength: "",
       trozenMohri: "",
@@ -80,9 +45,15 @@ export default function EditPage({ params }:any) {
       pantThigh: "",
       pantBottom: "",
     },
+
+    transformValues(values) {
+      values.phone = String(values.phone);
+      return values;
+    },
   });
 
   useEffect(() => {
+    console.log("edit call");
     async function fetchUserData() {
       try {
         setVisible(true);
@@ -91,7 +62,7 @@ export default function EditPage({ params }:any) {
           throw new Error("Network response was not ok");
         }
         const data = res.data;
-        setUserData(data);
+        form.setValues(data);
       } catch (err) {
       } finally {
         setVisible(false);
@@ -101,56 +72,26 @@ export default function EditPage({ params }:any) {
     fetchUserData();
   }, [params.id]);
 
-  useEffect(() => {
-    if (userData) {
-      form.setValues({
-        username: userData.username,
-        email: userData.email,
-        image: userData.image,
-        phone: userData.phone,
-        address: userData.address,
-        sherwaniLength: userData.sherwaniLength,
-        sherwaniChest: userData.sherwaniChest,
-        sherwaniBlowChest: userData.sherwaniBlowChest,
-        sherwaniWaist: userData.sherwaniWaist,
-        sherwaniHip: userData.sherwaniHip,
-        sherwaniSleeve: userData.sherwaniSleeve,
-        sherwaniNeck: userData.sherwaniNeck,
-        sherwaniShoulder: userData.sherwaniShoulder,
-        sherwaniCap: userData.sherwaniCap,
-        sherwaniFullHeight: userData.sherwaniFullHeight,
-        trozenLength: userData.trozenLength,
-        trozenMohri: userData.trozenMohri,
-        coatLength: userData.coatLength,
-        coatChest: userData.coatChest,
-        coatBlowChest: userData.coatBlowChest,
-        coatWaist: userData.coatWaist,
-        coatHip: userData.coatHip,
-        coatSleeve: userData.coatSleeve,
-        coatNeck: userData.coatNeck,
-        coatShoulder: userData.coatShoulder,
-        coatCap: userData.coatCap,
-        coatFullHeight: userData.coatFullHeight,
-        pantLength: userData.pantLength,
-        pantWaist: userData.pantWaist,
-        pantThigh: userData.pantThigh,
-        pantBottom: userData.pantBottom,
-      });
-    }
-  }, [userData,form]);
+  const handleSubmit = async (values) => {
+    const payload = structuredClone(values);
 
-  const handleSubmit = () => {
-    axios
-      .put(`/api/users/${params.id}`, form.values, {
+    delete payload.image1;
+    delete payload.image2;
+    delete payload.image3;
+
+    try {
+      const response = await axios.put(`/api/users/${params.id}`, payload, {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .then((response) => {
+      });
+      if (response.status === 200) {
         const url = "/dashboard/records";
         navigate.push(url);
-      })
-      .catch((error) => {});
+      }
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
   };
   const handleOnImageOpen = (imageUrl: SetStateAction<null>) => {
     setSelectedPreviewUrl(imageUrl);
@@ -182,37 +123,39 @@ export default function EditPage({ params }:any) {
                 alignItems: "center",
               }}
             >
-              {userData?.username}
+              {form.values?.username}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-              {[userData?.image1, userData?.image2, userData?.image3].map(
-                (src, index) => (
-                  <div
-                    key={index}
-                    className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg shadow-md hover:shadow-lg transition duration-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOnImageOpen(src);
-                    }}
-                  >
-                    {src ? (
-                      <Image
-                        src={src}
-                        alt={`Image ${index + 1}`}
-                        width={400}
-                        height={400}
-                        layout="responsive"
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                        className="object-cover w-full h-full transform hover:scale-105 transition duration-300"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center bg-gray-200 w-full h-full text-gray-500">
-                        No Image
-                      </div>
-                    )}
-                  </div>
-                )
-              )}
+              {[
+                form.values?.image1,
+                form.values?.image2,
+                form.values?.image3,
+              ].map((src, index) => (
+                <div
+                  key={index}
+                  className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOnImageOpen(src);
+                  }}
+                >
+                  {src ? (
+                    <Image
+                      src={src}
+                      alt={`Image ${index + 1}`}
+                      width={400}
+                      height={400}
+                      layout="responsive"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                      className="object-cover w-full h-full transform hover:scale-105 transition duration-300"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center bg-gray-200 w-full h-full text-gray-500">
+                      No Image
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
             <h2 className="text-2xl font-bold mb-4 text-center mt-4">
               Personal Info
@@ -228,8 +171,7 @@ export default function EditPage({ params }:any) {
                   </label>
                   <TextInput
                     placeholder="Enter username"
-                    value={form.values.username}
-                    {...form.getInputProps("username")}
+                    {...form?.getInputProps("username")}
                     size="md"
                   />
                 </div>
@@ -242,8 +184,7 @@ export default function EditPage({ params }:any) {
                   </label>
                   <TextInput
                     placeholder="Enter email"
-                    value={form.values.email}
-                    {...form.getInputProps("email")}
+                    {...form?.getInputProps("email")}
                     size="md"
                   />
                 </div>
@@ -256,8 +197,7 @@ export default function EditPage({ params }:any) {
                   </label>
                   <NumberInput
                     placeholder="Enter phone"
-                    value={form.values.phone}
-                    {...form.getInputProps("phone")}
+                    {...form?.getInputProps("phone")}
                     size="md"
                     hideControls
                   />
@@ -272,7 +212,7 @@ export default function EditPage({ params }:any) {
                   <TextInput
                     placeholder="Enter address"
                     value={form.values.address}
-                    {...form.getInputProps("address")}
+                    {...form?.getInputProps("address")}
                     size="md"
                   />
                 </div>
@@ -286,7 +226,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniLength"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Length
+                    Length
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Length"
@@ -301,7 +241,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniChest"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Chest
+                    Chest
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Chest"
@@ -316,7 +256,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniBlowChest"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Blow Chest
+                    Blow Chest
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Blow Chest"
@@ -331,7 +271,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniWaist"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Waist
+                    Waist
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Waist"
@@ -346,7 +286,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniHip"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Hip
+                    Hip
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Hip"
@@ -361,7 +301,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniSleeve"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Sleeve
+                    Sleeve
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Sleeve"
@@ -376,7 +316,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniNeck"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Neck
+                    Neck
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Neck"
@@ -391,7 +331,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniShoulder"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Shoulder
+                    Shoulder
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Shoulder"
@@ -406,7 +346,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniCap"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Cap
+                    Cap
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Cap"
@@ -421,7 +361,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="sherwaniFullHeight"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Sherwani Full Height
+                    Full Height
                   </label>
                   <NumberInput
                     placeholder="Enter Sherwani Full Height"
@@ -442,7 +382,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="trozenLength"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Trouser Length
+                    Length
                   </label>
                   <NumberInput
                     placeholder="Enter Trozen Length"
@@ -457,7 +397,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="trozenMohri"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Trouser Length Mohri
+                    Length Mohri
                   </label>
                   <NumberInput
                     placeholder="Enter Trozen Mohri"
@@ -477,7 +417,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatLength"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Length
+                    Length
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Length"
@@ -492,7 +432,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatChest"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Chest
+                    Chest
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Chest"
@@ -507,7 +447,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatBlowChest"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Blow Chest
+                    Blow Chest
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Blow Chest"
@@ -522,7 +462,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatWaist"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Waist
+                    Waist
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Waist"
@@ -537,7 +477,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatHip"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Hip
+                    Hip
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Hip"
@@ -552,7 +492,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatSleeve"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Sleeve
+                    Sleeve
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Sleeve"
@@ -567,7 +507,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatNeck"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Neck
+                    Neck
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Neck"
@@ -582,7 +522,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatShoulder"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Shoulder
+                    Shoulder
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Shoulder"
@@ -597,7 +537,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatCap"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Cap
+                    Cap
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Cap"
@@ -612,7 +552,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="coatFullHeight"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Coat Full Height
+                    Full Height
                   </label>
                   <NumberInput
                     placeholder="Enter Coat Full Height"
@@ -633,7 +573,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="pantLength"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Pant Length
+                    Length
                   </label>
                   <NumberInput
                     placeholder="Enter Pant Length"
@@ -648,7 +588,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="pantWaist"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Pant Waist
+                    Waist
                   </label>
                   <NumberInput
                     placeholder="Enter Pant Waist"
@@ -663,7 +603,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="pantThigh"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Pant Thigh
+                    Thigh
                   </label>
                   <NumberInput
                     placeholder="Enter Pant Thigh"
@@ -678,72 +618,7 @@ export default function EditPage({ params }:any) {
                     htmlFor="pantBottom"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Pant Bottom
-                  </label>
-                  <NumberInput
-                    placeholder="Enter Pant Bottom"
-                    value={form.values.pantBottom}
-                    {...form.getInputProps("pantBottom")}
-                    size="md"
-                    hideControls
-                  />
-                </div>
-              </div>
-              <h2 className="text-2xl font-bold mb-4 text-center mt-7">
-                Pant Measurement
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-9 mt-8">
-                <div>
-                  <label
-                    htmlFor="pantLength"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Pant Length
-                  </label>
-                  <NumberInput
-                    placeholder="Enter Pant Length"
-                    value={form.values.pantLength}
-                    {...form.getInputProps("pantLength")}
-                    size="md"
-                    hideControls
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="pantWaist"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Pant Waist
-                  </label>
-                  <NumberInput
-                    placeholder="Enter Pant Waist"
-                    value={form.values.pantWaist}
-                    {...form.getInputProps("pantWaist")}
-                    size="md"
-                    hideControls
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="pantThigh"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Pant Thigh
-                  </label>
-                  <NumberInput
-                    placeholder="Enter Pant Thigh"
-                    value={form.values.pantThigh}
-                    {...form.getInputProps("pantThigh")}
-                    size="md"
-                    hideControls
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="pantBottom"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Pant Bottom
+                    Bottom
                   </label>
                   <NumberInput
                     placeholder="Enter Pant Bottom"

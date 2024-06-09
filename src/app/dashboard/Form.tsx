@@ -412,7 +412,7 @@ function Demo() {
                     htmlFor="sherwaniSleeve"
                     className="block text-gray-700 font-semibold"
                   >
-                    Sleeve *
+                    Sherwani Sleeve *
                   </label>
                   <NumberInput
                     type="text"
@@ -757,7 +757,7 @@ function Demo() {
                     htmlFor="pantLength"
                     className="block text-gray-700 font-semibold"
                   >
-                    Pant Length *
+                    Length *
                   </label>
                   <NumberInput
                     type="text"
@@ -814,14 +814,26 @@ function Demo() {
                 </div>
               </div>
               <div className="flex justify-center mt-8">
-                <Button
+                {/* <Button
                   type="submit"
                   color="teal"
                   size="lg"
                   className="w-full md:w-auto"
                 >
                   Submit
-                </Button>
+                </Button> */}
+                {/* <button
+                  type="submit"
+                  className="w-full md:w-auto px-8 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+                >
+                  Submit
+                </button> */}
+                <button
+                  type="submit"
+                  className="w-full md:w-auto px-8 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 font-semibold"
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>

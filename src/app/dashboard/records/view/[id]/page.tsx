@@ -6,7 +6,7 @@ import classes from "../../Records.module.css";
 import { IconX } from "@tabler/icons-react";
 import Image from "next/image";
 
-export default function Page({ params }:any) {
+export default function Page({ params }: any) {
   const [userData, setUserData] = useState(null);
   const [visible, setVisible] = useState(false);
   const [selectedPreviewUrl, setSelectedPreviewUrl] = useState(null);
@@ -22,6 +22,7 @@ export default function Page({ params }:any) {
         })
         .then((data) => {
           setUserData(data);
+
           setVisible(false);
         })
         .catch((error) => {
@@ -33,7 +34,29 @@ export default function Page({ params }:any) {
     fetchUserData();
   }, [params.id]);
 
-  const CustomModal = ({ isOpen, handleOnImageClose, imageUrl }:any) => {
+  // const CustomModal = ({ isOpen, handleOnImageClose, imageUrl }: any) => {
+  //   if (!isOpen) return null;
+  //   return (
+  //     <>
+  //       <div className={classes.modal_overlay} onClick={handleOnImageClose} />
+  //       <div className={classes.modal}>
+  //         <div className={classes.close_button} onClick={handleOnImageClose}>
+  //           <IconX
+  //             width={20}
+  //             height={20}
+  //             stroke={3}
+  //             color="#ffffff"
+  //             onClick={handleOnImageClose}
+  //           />
+  //         </div>
+  //         <div className={classes.modal_content}>
+  //           <img src={imageUrl} alt="image" />
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
+  const CustomModal = ({ isOpen, handleOnImageClose, imageUrl }: any) => {
     if (!isOpen) return null;
     return (
       <>
@@ -56,7 +79,7 @@ export default function Page({ params }:any) {
     );
   };
 
-  const handleOnImageOpen = (imageUrl:any) => {
+  const handleOnImageOpen = (imageUrl: any) => {
     setSelectedPreviewUrl(imageUrl);
   };
 
@@ -64,15 +87,40 @@ export default function Page({ params }:any) {
     setSelectedPreviewUrl(null);
   };
 
+  const LoaderOverlay = ({ visible }: { visible: boolean }) => {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: visible ? "flex" : "none",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000,
+          pointerEvents: "none",
+        }}
+      >
+        <LoadingOverlay
+          visible={visible}
+          overlayProps={{ radius: "sm", blur: 2 }}
+          loaderProps={{ color: "blue", type: "bars" }}
+        />
+      </div>
+    );
+  };
   return (
     <>
       <Navbar />
-      <LoadingOverlay
+      <LoaderOverlay visible={visible} />
+      {/* <LoadingOverlay
         visible={visible}
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "blue", type: "bars" }}
-      />
+      /> */}
       <div className="bg-gray-100 min-h-screen py-10">
         <div className="max-w-xxl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mx-8">
           <div className="p-6">
@@ -163,28 +211,28 @@ export default function Page({ params }:any) {
                 <tbody className="text-gray-700">
                   {[
                     {
-                      label: "Sherwani Length",
+                      label: "Length",
                       value: userData?.sherwaniLength,
                     },
-                    { label: "Sherwani Chest", value: userData?.sherwaniChest },
+                    { label: "Chest", value: userData?.sherwaniChest },
                     {
-                      label: "Sherwani Blow Chest",
+                      label: "Blow Chest",
                       value: userData?.sherwaniBlowChest,
                     },
-                    { label: "Sherwani Waist", value: userData?.sherwaniWaist },
-                    { label: "Sherwani Hip", value: userData?.sherwaniHip },
+                    { label: "Waist", value: userData?.sherwaniWaist },
+                    { label: "Hip", value: userData?.sherwaniHip },
                     {
-                      label: "Sherwani Sleeve",
+                      label: "Sleeve",
                       value: userData?.sherwaniSleeve,
                     },
-                    { label: "Sherwani Neck", value: userData?.sherwaniNeck },
+                    { label: "Neck", value: userData?.sherwaniNeck },
                     {
-                      label: "Sherwani Shoulder",
+                      label: "Shoulder",
                       value: userData?.sherwaniShoulder,
                     },
-                    { label: "Sherwani Cap", value: userData?.sherwaniCap },
+                    { label: "Cap", value: userData?.sherwaniCap },
                     {
-                      label: "Sherwani Full Height",
+                      label: "Full Height",
                       value: userData?.sherwaniFullHeight,
                     },
                   ].map((item, index) => (
@@ -219,20 +267,20 @@ export default function Page({ params }:any) {
                 </colgroup>
                 <tbody className="text-gray-700">
                   {[
-                    { label: "Coat Length", value: userData?.coatLength },
-                    { label: "Coat Chest", value: userData?.coatChest },
+                    { label: "Length", value: userData?.coatLength },
+                    { label: "Chest", value: userData?.coatChest },
                     {
-                      label: "Coat Blow Chest",
+                      label: "Blow Chest",
                       value: userData?.coatBlowChest,
                     },
-                    { label: "Coat Waist", value: userData?.coatWaist },
-                    { label: "Coat Hip", value: userData?.coatHip },
-                    { label: "Coat Sleeve", value: userData?.coatSleeve },
-                    { label: "Coat Neck", value: userData?.coatNeck },
-                    { label: "Coat Shoulder", value: userData?.coatShoulder },
-                    { label: "Coat Cap", value: userData?.coatCap },
+                    { label: "Waist", value: userData?.coatWaist },
+                    { label: "Hip", value: userData?.coatHip },
+                    { label: "Sleeve", value: userData?.coatSleeve },
+                    { label: "Neck", value: userData?.coatNeck },
+                    { label: "Shoulder", value: userData?.coatShoulder },
+                    { label: "Cap", value: userData?.coatCap },
                     {
-                      label: "Coat Full Height",
+                      label: "Full Height",
                       value: userData?.coatFullHeight,
                     },
                   ].map((item, index) => (
@@ -267,10 +315,10 @@ export default function Page({ params }:any) {
                 </colgroup>
                 <tbody className="text-gray-700">
                   {[
-                    { label: "Pant Length", value: userData?.pantLength },
-                    { label: "Pant Waist", value: userData?.pantWaist },
-                    { label: "Pant Thigh", value: userData?.pantThigh },
-                    { label: "Pant Bottom", value: userData?.pantBottom },
+                    { label: "Length", value: userData?.pantLength },
+                    { label: "Waist", value: userData?.pantWaist },
+                    { label: "Thigh", value: userData?.pantThigh },
+                    { label: "Bottom", value: userData?.pantBottom },
                   ].map((item, index) => (
                     <tr
                       key={index}
@@ -294,7 +342,7 @@ export default function Page({ params }:any) {
 
             <div>
               <h2 className="text-2xl font-bold mb-4 text-center">
-                Trozen or Pajama Measurement
+                Troser or Pajama Measurement
               </h2>
               <table className="w-full table-fixed border-collapse border border-gray-300 rounded-lg overflow-hidden">
                 <colgroup>
@@ -303,8 +351,8 @@ export default function Page({ params }:any) {
                 </colgroup>
                 <tbody className="text-gray-700">
                   {[
-                    { label: "Trozan Length", value: userData?.trozenLength },
-                    { label: "Trozan Mohri", value: userData?.trozenMohri },
+                    { label: "Length", value: userData?.trozenLength },
+                    { label: "Mohri", value: userData?.trozenMohri },
                   ].map((item, index) => (
                     <tr
                       key={index}
